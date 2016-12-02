@@ -16,8 +16,8 @@ import java.util.Arrays;
 public class HostApduServiceTest extends HostApduService {
     public static final String TAG = "HceTest";
 
-    private final static String COUNTER_PREF = "counter";
-    private final static String AMOUNT = "amount";
+    public final static String COUNTER_PREF = "counter";
+    public final static String AMOUNT = "amount";
     protected final static byte[] HCE = StringUtils.convertASCIIStringToByteArray("HCE");
     protected final static byte[] SW_OK = StringUtils.convertHexStringToByteArray("9000");
     protected final static byte[] SW_INS_NOT_SUPPORTED = StringUtils.convertHexStringToByteArray("6D00");

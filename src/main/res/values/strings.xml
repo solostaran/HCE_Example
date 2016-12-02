@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">HCE_Test</string>
+    <string name="app_name">HCE_Example</string>
     <string name="servicedesc">HceServiceTest</string>
     <string name="aiddescription">HceAppletTest</string>
     <string name="lbl_hcecard">An example of an HCE card</string>
     <string name="lbl_amountdesc">Received an amount of </string>
     <string name="no_amount">No amount provided</string>
+    <string name="amount_label">Amount</string>
 </resources>
