@@ -33,7 +33,7 @@
         android:inputType="number"
         android:focusable="false"
         android:ems="10"
-        android:id="@+id/editAmount"
+        android:id="@+id/displayAmount"
         android:layout_alignTop="@+id/lblAmountDesc"
         android:layout_marginTop="-10dp"
         android:layout_toEndOf="@+id/lblAmountDesc"

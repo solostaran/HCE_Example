@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
 //    private static final String AMOUNT = "amount";
     private TextView lblAmountDesc;
-    private EditText editAmount;
+    private EditText displayAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         lblAmountDesc = (TextView)findViewById(R.id.lblAmountDesc);
-        editAmount = (EditText)findViewById(R.id.editAmount);
+        displayAmount = (EditText)findViewById(R.id.displayAmount);
     }
 
     @Override
@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if (b == null) return;
         int amount = b.getInt(AMOUNT, -1);
+        double mnt = ((double)amount)/100.0;
         if (amount >= 0) {
             lblAmountDesc.setText(getString(R.string.lbl_amountdesc));
-            editAmount.setText(amount);
+            displayAmount.setText(Double.toString(mnt));
         } else {
             lblAmountDesc.setText(getString(R.string.no_amount));
-            editAmount.setText("");
+            displayAmount.setText("");
         }
     }
 }

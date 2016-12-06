@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.utils.StringUtils;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -45,22 +46,23 @@ public class HostApduServiceTest extends HostApduService {
         Log.i(TAG, "Received APDU: " + StringUtils.convertByteArrayToHexString(commandApdu));
         switch(commandApdu[1]) {
             case (byte)0xA4:
-                Log.i(TAG, "this is a select apdu");
+                Log.d(TAG, "This is a select apdu");
                 ret = ConcatArrays(HCE, SW_OK);
                 break;
             case (byte)0x10:
-                Log.i(TAG, "this is a get counter");
+                Log.d(TAG, "This is a get counter");
                 byte [] count_resp = convertShortToByteArray(incrementCounter());
                 ret =  ConcatArrays(count_resp, SW_OK);
                 break;
             case (byte)0x20:
-                Log.i(TAG, "this is a transaction");
+                Log.d(TAG, "This is a transaction");
                 if (commandApdu[4] != 4) {
                     return SW_WRONG_LE_FIELD;
                 }
                 int amount = convertByteArrayToInt(commandApdu, (short)5);
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(AMOUNT, amount);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 ret = SW_OK;
                 break;
@@ -126,19 +128,20 @@ public class HostApduServiceTest extends HostApduService {
     }
 
     public static int convertByteArrayToInt(byte[] array, short offset) {
-        int i = array[offset++];
-        i = i*10 + array[offset++];
-        i = i*10 + array[offset++];
-        i = i*10 + array[offset++];
-        return i;
+        return ByteBuffer.wrap(array, offset, 4).getInt();
+//        int i = array[offset++];
+//        i = i*10 + array[offset++];
+//        i = i*10 + array[offset++];
+//        i = i*10 + array[offset++];
+//        return i;
     }
 
     public static byte[] convertIntToByteArray(int i) {
-        byte [] ret = new byte[4];
-        ret[0] = (byte)(i >> 24);
-        ret[1] = (byte)(i >> 16);
-        ret[2] = (byte)(i >> 8);
-        ret[3] = (byte)i;
-        return ret;
+        return ByteBuffer.allocate(4).putInt(i).array();
+//        return new byte[] {
+//                (byte)(i >> 24),
+//                (byte)(i >> 16),
+//                (byte)(i >> 8),
+//                (byte)i };
     }
 }
