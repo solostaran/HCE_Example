@@ -19,10 +19,12 @@ public class HostApduServiceTest extends HostApduService {
 
     public final static String COUNTER_PREF = "counter";
     public final static String AMOUNT = "amount";
-    protected final static byte[] HCE = StringUtils.convertASCIIStringToByteArray("HCE");
-    protected final static byte[] SW_OK = StringUtils.convertHexStringToByteArray("9000");
-    protected final static byte[] SW_INS_NOT_SUPPORTED = StringUtils.convertHexStringToByteArray("6D00");
-    protected final static byte[] SW_WRONG_LE_FIELD = StringUtils.convertHexStringToByteArray("6C04");
+    //protected final static byte[] HCE = StringUtils.convertASCIIStringToByteArray("HCE");
+    protected final static byte[] HCE = { 0x48, 0x43, 0x45 };
+    protected final static byte[] SW_OK = { (byte)0x90, 0x00 };
+    protected final static byte[] SW_INS_NOT_SUPPORTED = { 0x6D, 0x00 };
+    protected final static byte[] SW_WRONG_LE_FIELD = { 0x6C, 0x04 };
+    protected final static byte[] SW_UNKNOWN = { 0x6F, 0x00 };
 
     private short counter;
     private SharedPreferences prefs;
@@ -93,11 +95,8 @@ public class HostApduServiceTest extends HostApduService {
 
     /**
      * Utility method to concatenate two byte arrays.
-     *
-     * @param first
-     *            First array
-     * @param rest
-     *            Any remaining arrays
+     * @param first  First array
+     * @param rest  Any remaining arrays
      * @return Concatenated copy of input arrays
      */
     public static byte[] ConcatArrays(byte[] first, byte[]... rest) {
@@ -115,7 +114,7 @@ public class HostApduServiceTest extends HostApduService {
     }
 
     /**
-     * Utility method to create a byte array from a short
+     * Utility method to create a byte array from a short.
      * @param s the short in question
      * @return a newly allocated byte array
      */
@@ -127,6 +126,13 @@ public class HostApduServiceTest extends HostApduService {
         return ret;
     }
 
+    /**
+     * Utility method to convert 4 bytes from an array to an integer.
+     * The 4 bytes' order must be big-endian.
+     * @param array source byte array
+     * @param offset beginning offset to the 4 bytes
+     * @return the converted integer
+     */
     public static int convertByteArrayToInt(byte[] array, short offset) {
         return ByteBuffer.wrap(array, offset, 4).getInt();
 //        int i = array[offset++];
@@ -136,6 +142,12 @@ public class HostApduServiceTest extends HostApduService {
 //        return i;
     }
 
+    /**
+     * Utility method to create a byte array from an integer.
+     * The 4 bytes' order is big-endian.
+     * @param i integer to convert
+     * @return a newly allocated byte array
+     */
     public static byte[] convertIntToByteArray(int i) {
         return ByteBuffer.allocate(4).putInt(i).array();
 //        return new byte[] {
